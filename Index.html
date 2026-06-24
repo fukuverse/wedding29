@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Влад & Диана // 20.09.2027</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Helvetica Neue', Arial, system-ui, -apple-system, sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+            background: linear-gradient(180deg, #1a1c1e 0%, #111214 100%);
+            color: #bcbfc2;
+        }
+
+        /* АБСТРАКТНАЯ ГЕОМЕТРИЧЕСКАЯ ПЫЛЬ */
+        .abstract-container { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100vw; 
+            height: 100vh; 
+            pointer-events: none; 
+            z-index: 2; 
+        }
+        
+        .abstract-item { 
+            position: absolute; 
+            top: -30px; 
+            pointer-events: none; 
+            animation: industrialDrift linear infinite; 
+            opacity: 0;
+            user-select: none;
+            color: #ffffff;
+        }
+        
+        @keyframes industrialDrift {
+            0% { transform: translateY(0) scale(0.6); opacity: 0; }
+            20% { opacity: 0.3; }
+            80% { opacity: 0.3; }
+            100% { transform: translateY(105vh) scale(1); opacity: 0; }
+        }
+
+        /* МЯГКИЙ СИЛУЭТНЫЙ СВЕТ */
+        .ambient-glow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .glow-circle {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: rgba(255, 255, 255, 0.015);
+            border-radius: 50%;
+            filter: blur(120px);
+            animation: breatheGlow 15s ease-in-out infinite alternate;
+        }
+        .gc-1 { top: -100px; left: -100px; }
+        .gc-2 { bottom: -100px; right: -100px; animation-delay: -7.5s; }
+
+        @keyframes breatheGlow {
+            0% { transform: scale(1); opacity: 0.5; }
+            100% { transform: scale(1.2); opacity: 0.9; }
+        }
+
+        .wrapper { 
+            width: 100%; 
+            max-width: 400px; 
+            min-height: 100vh; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            padding: 40px 24px; 
+            z-index: 10; 
+        }
+        
+        /* ТЯГУЧЕЕ ПОЯВЛЕНИЕ */
+        .screen { display: none; width: 100%; text-align: center; }
+        .screen.active { 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            animation: industrialFade 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
+        }
+        @keyframes industrialFade { 
+            from { opacity: 0; transform: scale(0.96); filter: blur(15px); } 
+            to { opacity: 1; transform: scale(1); filter: blur(0); } 
+        }
+
+        /* ПОСТЕРНАЯ ВЕРСТКА */
+        .post-layout {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 45px;
+        }
+
+        .code-tag {
+            font-size: 0.65rem;
+            color: #63686e;
+            letter-spacing: 5px;
+        }
+
+        .main-title { 
+            font-size: 1.8rem; 
+            font-weight: 700; 
+            color: #ffffff; 
+            line-height: 1.3;
+            letter-spacing: 4px;
+        }
+        
+        /* СТРОГАЯ КНОПКА */
+        .btn-indie {
+            background: transparent;
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            width: 100%;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 4px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            margin-top: 10px;
+        }
+        .btn-indie:hover { 
+            border-color: #ffffff;
+            background: #ffffff;
+            color: #111214;
+        }
+
+        .body-text {
+            font-size: 0.8rem;
+            line-height: 2;
+            color: #9da1a6;
+            letter-spacing: 2px;
+            text-transform: none;
+        }
+        
+        /* ЦИФРОВОЙ ТАЙМЕР */
+        .digital-timer { 
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px 0;
+        }
+        .timer-grid { display: flex; justify-content: space-between; padding: 0 10px; }
+        .timer-item { display: flex; flex-direction: column; align-items: center; }
+        .timer-num { font-size: 1.4rem; color: #ffffff; font-weight: 400; }
+        .timer-label { font-size: 0.55rem; color: #63686e; margin-top: 5px; letter-spacing: 1px; }
+
+        .info-stack { display: flex; flex-direction: column; gap: 35px; }
+        .info-row h4 { 
+            font-size: 0.65rem; 
+            letter-spacing: 4px; 
+            margin-bottom: 10px; 
+            color: #ffffff; 
+            font-weight: 600;
+        }
+        .info-row p { font-size: 0.85rem; color: #bcbfc2; }
+        
+        .map-link {
+            display: inline-block; 
+            color: #ffffff; 
+            font-size: 0.65rem; 
+            margin-top: 12px; 
+            text-decoration: none; 
+            letter-spacing: 2px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+            padding-bottom: 4px;
+            transition: all 0.3s;
+        }
+        .map-link:hover { border-color: #ffffff; opacity: 0.7; }
+
+        /* RSVP */
+        .rsvp-block { margin-top: 10px; }
+        .rsvp-choice { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
+        .choice-btn { 
+            padding: 16px; 
+            cursor: pointer; 
+            font-size: 0.7rem; 
+            font-weight: 600; 
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); 
+            background: transparent;
+            width: 100%;
+        }
+        .btn-accept { background: rgba(255,255,255,0.04); color: #ffffff; border: 1px solid rgba(255,255,255,0.15); }
+        .btn-accept:hover { background: #ffffff; color: #111214; }
+        .btn-decline { color: #63686e; border: 1px solid transparent; }
+        .btn-decline:hover { color: #ffffff; }
+        
+        .status-output { margin-top: 20px; font-size: 0.75rem; display: none; color: #ffffff; letter-spacing: 1px; }
+    </style>
+</head>
+<body>
+
+    <div class="ambient-glow">
+        <div class="glow-circle gc-1"></div>
+        <div class="glow-circle gc-2"></div>
+    </div>
+
+    <!-- КОНТЕЙНЕР ДЛЯ АБСТРАКТНОЙ ГЕОМЕТРИИ -->
+    <div class="abstract-container" id="abstract-space"></div>
+
+    <div class="wrapper">
+        <!-- ЭКРАН 1 -->
+        <div id="scr-envelope" class="screen active">
+            <div class="post-layout">
+                <div class="code-tag">// INV_2027</div>
+                <h1 class="main-title">ВЛАД<br>& ДИАНА</h1>
+                <div>
+                    <button class="btn-indie" onclick="nextScreen()">ВХОД</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ЭКРАН 2 -->
+        <div id="scr-main" class="screen">
+            <div class="post-layout">
+                <div class="code-tag">// СВАДЕБНОЕ СОБЫТИЕ</div>
+                
+                <p class="body-text">
+                    В нашей жизни наступает осознанный и самый важный момент. Мы будем искренне рады видеть вас среди наших самых близких гостей.
+                </p>
+                
+                <!-- ЦИФРОВОЙ ТАЙМЕР -->
+                <div class="digital-timer">
+                    <div class="timer-grid">
+                        <div class="timer-item"><span id="days">00</span><span class="timer-label">ДН</span></div>
+                        <div class="timer-item"><span id="hours">00</span><span class="timer-label">ЧС</span></div>
+                        <div class="timer-item"><span id="minutes">00</span><span class="timer-label">МН</span></div>
+                        <div class="timer-item"><span id="seconds">00</span><span class="timer-label">СК</span></div>
+                    </div>
+                </div>
+
+                <!-- БЛОКИ ИНФОРМАЦИИ -->
+                <div class="info-stack">
+                    <div class="info-row">
+                        <h4>ДАТА СУББОТА</h4>
+                        <p>20 СЕНТЯБРЯ 2027</p>
+                    </div>
+                    
+                    <div class="info-row">
+                        <h4>РАСПИСАНИЕ</h4>
+                        <p style="text-transform: none;">Никах — 14:00 / Банкет — 18:00</p>
+                    </div>
+
+                    <div class="info-row">
+                        <h4>ЛОКАЦИЯ</h4>
+                        <p>ЗАЛ ТОРЖЕСТВ «ЖЕМЧУЖИНА»</p>
+                        <p style="font-size: 0.75rem; opacity: 0.5; margin-top: 5px; text-transform: none;">г. Ташкент, ул. Навои, д. 12</p>
+                        <a href="https://maps.google.com" target="_blank" class="map-link">КАРТА МЕСТА</a>
+                    </div>
+                </div>
+
+                <!-- RSVP ПОДТВЕРЖДЕНИЕ -->
+                <div class="rsvp-block">
+                    <h4>ВАШ СТАТУС</h4>
+                    <p style="font-size: 0.65rem; color: #63686e; margin-top: 5px;">ОТВЕТ ДО 01.09.2027</p>
+                    <div class="rsvp-choice">
+                        <button class="choice-btn btn-accept" onclick="submitRSVP('Да')">ПОДТВЕРДИТЬ ПРИСУТСТВИЕ</button>
+                        <button class="choice-btn btn-decline" onclick="submitRSVP('Нет')">НЕ СМОГУ</button>
+                    </div>
+                    <div class="status-output" id="status-msg"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function nextScreen() { 
+            document.getElementById('scr-envelope').classList.remove('active'); 
+            document.getElementById('scr-main').classList.add('active'); 
+        }
+
+        function submitRSVP(answer) { 
+            const msg = document.getElementById('status-msg'); 
+            msg.style.display = 'block'; 
+            msg.innerHTML = answer === 'Да' ? "ПРИНЯТО. ДО ВСТРЕЧИ." : "ОЧЕНЬ ЖАЛЬ. СПАСИБО ЗА ОТВЕТ."; 
+        }
+        
+        // Обратный отсчет времени
+        const targetDate = new Date("Sep 20, 2027 14:00:00").getTime();
+        function runTimer() {
+            const diff = targetDate - new Date().getTime();
+            if (diff <= 0) { document.querySelector(".timer-grid").innerHTML = "<div>ДОБРО ПОЖАЛОВАТЬ</div>"; return; }
+            const d = Math.floor(diff/(1000*60*60*24)), h = Math.floor((diff%(1000*60*60*24))/(1000*60*60)), m = Math.floor((diff%(1000*60))/(1000*60)), s = Math.floor((diff%(1000*60))/1000);
+            document.getElementById("days").innerText = String(d).padStart(2,'0'); document.getElementById("hours").innerText = String(h).padStart(2,'0'); document.getElementById("minutes").innerText = String(m).padStart(2,'0'); document.getElementById("seconds").innerText = String(s).padStart(2,'0');
+        }
+        setInterval(runTimer, 1000); runTimer();
+
+        // Падающие элементы
+        const geometricItems = ['—', '+', '▪', '∙'];
+
+        function spawnAbstract() {
+            const space = document.getElementById('abstract-space'); if(!space) return;
+            const element = document.createElement('div'); element.className = 'abstract-item';
+            element.innerText = geometricItems[Math.floor(Math.random() * geometricItems.length)];
+            element.style.left = Math.random() * 100 + 'vw'; 
+            element.style.fontSize = (Math.random() * 4 + 8) + 'px'; 
+            
+            const duration = Math.random() * 5 + 8;
+            element.style.animationDuration = duration + 's';
+            
+            space.appendChild(element); 
+            setTimeout(() => { element.remove(); }, duration * 1000);
+        }
+        setInterval(spawnAbstract, 500);
+    </script>
+</body>
+</html>
